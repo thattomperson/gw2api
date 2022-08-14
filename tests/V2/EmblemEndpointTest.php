@@ -31,8 +31,9 @@ class EmblemEndpointTest extends TestCase {
         $this->assertEndpointUrl('v2/emblem/foregrounds', $foregrounds);
     }
 
-    /** @expectedException \InvalidArgumentException */
+
     public function testInvalidLayerType() {
+        $this->expectException(\InvalidArgumentException::class);
         new LayerEndpoint($this->api(), 'invalid');
     }
 }

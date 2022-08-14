@@ -34,8 +34,8 @@ class AccountEndpointTest extends TestCase {
         $this->assertEquals(1, $endpoint->get(1)->id);
     }
 
-    /** @expectedException Exception */
     public function testAchievementsIds() {
+        $this->expectException(Exception::class);
         $endpoint = $this->api()->account('test')->achievements();
 
         /** @noinspection PhpDeprecationInspection */

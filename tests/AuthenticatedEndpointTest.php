@@ -23,14 +23,12 @@ class AuthenticatedEndpointTest extends TestCase {
         $this->assertHasHeader($request, 'Authorization', 'Bearer test');
     }
 
-    /**
-     * @expectedException \GW2Treasures\GW2Api\V2\Authentication\Exception\AuthenticationException
-     * @expectedExceptionMessage invalid key
-     */
     public function testInvalidKey() {
+        $this->expectException(\GW2Treasures\GW2Api\V2\Authentication\Exception\AuthenticationException::class);
+        $this->expectExceptionMessage('invalid key');
         $this->mockResponse( new Response(
             400, [ 'Content-Type' => 'application/json; charset=utf-8' ],
-            Psr7\stream_for( '{"text":"invalid key"}' )
+            Psr7\Utils::streamFor( '{"text":"invalid key"}' )
         ));
 
         $this->getAuthenticatedEndpoint('invalid')->test();
@@ -39,7 +37,7 @@ class AuthenticatedEndpointTest extends TestCase {
     public function testInvalidPermissions() {
         $this->mockResponse( new Response(
             400, [ 'Content-Type' => 'application/json; charset=utf-8' ],
-            Psr7\stream_for( '{"text":"requires scope characters"}' )
+            Psr7\Utils::streamFor( '{"text":"requires scope characters"}' )
         ));
 
         try {
@@ -56,14 +54,12 @@ class AuthenticatedEndpointTest extends TestCase {
         $this->fail('Accessing IAuthenticatedEndpoint with an api_key that is missing scopes throws InvalidPermissionsException');
     }
 
-    /**
-     * @expectedException \GW2Treasures\GW2Api\Exception\ApiException
-     * @expectedExceptionMessage unknown error
-     */
     public function testUnknownError() {
+        $this->expectException(\GW2Treasures\GW2Api\Exception\ApiException::class);
+        $this->expectExceptionMessage('unknown error');
         $this->mockResponse( new Response(
             400, [ 'Content-Type' => 'application/json; charset=utf-8' ],
-            Psr7\stream_for( '{"text":"unknown error"}' )
+            Psr7\Utils::streamFor( '{"text":"unknown error"}' )
         ));
 
         $this->getAuthenticatedEndpoint('invalid')->test();

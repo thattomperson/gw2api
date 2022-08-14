@@ -17,7 +17,7 @@ class GW2ApiTest extends TestCase {
             unlink( $path );
         }
 
-        $this->assertFileNotExists( $path, 'extracted cacert file should not exist before extracting' );
+        $this->assertFileDoesNotExist( $path, 'extracted cacert file should not exist before extracting' );
 
         $api->extractCacertFile();
 

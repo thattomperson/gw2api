@@ -44,7 +44,7 @@ class BulkEndpointTest extends TestCase {
         $firstResponse = new Response(
             200,
             [ 'X-Result-Total' => 5, 'Content-Type' => 'application/json; charset=utf-8' ],
-            Psr7\stream_for( '[1,2,3]' )
+            Psr7\Utils::streamFor( '[1,2,3]' )
         );
         $this->mockResponse( $firstResponse );
         $this->mockResponse( '[4,5]' );
@@ -108,27 +108,26 @@ class BulkEndpointTest extends TestCase {
             'BulkEndpoint returns empty result when 0 ids were requested' );
 }
 
-    /**
-     * @expectedException \GW2Treasures\GW2Api\Exception\ApiException
-     * @expectedExceptionMessage no such id
-     */
+
     public function testInvalidId() {
+        $this->expectException(\GW2Treasures\GW2Api\Exception\ApiException::class);
+        $this->expectExceptionMessage('no such id');
+
         $this->mockResponse( new Response(
             404, [ 'Content-Type' => 'application/json; charset=utf-8' ],
-            Psr7\stream_for( '{"text":"no such id"}' )
+            Psr7\Utils::streamFor( '{"text":"no such id"}' )
         ));
 
         $this->getBulkEndpoint()->get('invalid');
     }
 
-    /**
-     * @expectedException \GW2Treasures\GW2Api\Exception\ApiException
-     * @expectedExceptionMessage all ids provided are invalid
-     */
     public function testInvalidIds() {
+        $this->expectException(\GW2Treasures\GW2Api\Exception\ApiException::class);
+        $this->expectExceptionMessage('all ids provided are invalid');
+
         $this->mockResponse( new Response(
             404, [ 'Content-Type' => 'application/json; charset=utf-8' ],
-            Psr7\stream_for( '{"text":"all ids provided are invalid"}' )
+            Psr7\Utils::streamFor( '{"text":"all ids provided are invalid"}' )
         ));
 
         $this->getBulkEndpoint()->many(['invalid']);

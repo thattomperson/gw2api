@@ -42,7 +42,7 @@ class PvpEndpointTest extends TestCase {
         $this->assertEndpointIsBulk($endpoint);
 
         $this->mockResponse('{"id":"115C140F-C2F5-40EB-8EA2-C3773F2AE468","name":"Nika"}');
-        $this->assertContains('Nika', $endpoint->get('115C140F-C2F5-40EB-8EA2-C3773F2AE468')->name);
+        $this->assertStringContainsString('Nika', $endpoint->get('115C140F-C2F5-40EB-8EA2-C3773F2AE468')->name);
     }
 
     public function testRanks() {

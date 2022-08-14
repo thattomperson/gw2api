@@ -26,7 +26,7 @@ class ApiHandlerTest extends TestCase {
             ? [ 'Content-Type' => $contentType ]
             : [];
 
-        return new Response( 200, $header, Psr7\stream_for( $content ));
+        return new Response( 200, $header, Psr7\Utils::streamFor( $content ));
     }
 
     public function testAsJson() {
@@ -43,25 +43,19 @@ class ApiHandlerTest extends TestCase {
         $this->assertNull( $handler->responseAsJson( $invalidNoContentType ));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testRegisterNull() {
+        $this->expectException(\InvalidArgumentException::class);
         $this->api()->registerHandler( null );
     }
 
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testRegisterSubclassOfHandler() {
+        $this->expectException(\InvalidArgumentException::class);
         $this->api()->registerHandler( 'stdClass' );
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testRegisterHandler() {
+        $this->expectException(\InvalidArgumentException::class);
+
         $this->api()->registerHandler( $this->getHandler( $this->getEndpoint() ) );
     }
 }

@@ -50,7 +50,7 @@ abstract class ApiHandler {
      * @return array
      */
     protected function getQueryAsArray( RequestInterface $request ) {
-        return Psr7\parse_query($request->getUri()->getQuery());
+        return Psr7\Query::parse($request->getUri()->getQuery());
     }
 
     /**
