@@ -1,19 +1,13 @@
 language: php
-dist: trusty
+dist: focal
 
 php:
   - 7.4
   - 8.0
   - 8.1
 
-env:
-  global:
-    - setup=basic
 install:
-  - travis_retry composer install --no-interaction
-
-before_script:
-  - phpenv config-rm xdebug.ini
+  - travis_retry composer install
 
 script:
   - vendor/bin/phpunit --configuration phpunit.xml --coverage-clover clover.xml
